@@ -26,8 +26,7 @@ void remove_at(List *l, Node **dest, float val);
 void remove_front(List *l);
 void remove_back(List *l);
 int search_item(List *l, float val, Node **res);
-void show_list(const List *l);
+void print_list(const List *l);
 void clear_list(List *l);
-
 
 #endif // LLIST_H

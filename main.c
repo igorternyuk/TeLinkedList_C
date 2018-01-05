@@ -11,6 +11,7 @@ int main(void)
         return -1;
     }
     List *l = new_list();
+    printf("Initial list size: %d\n", l->count);
     while(!feof(file))
     {
         float val;
@@ -40,8 +41,11 @@ int main(void)
     }
 
     fclose(file);
-    show_list(l);
+    print_list(l);
     printf("List size: %d\n", l->count);
     clear_list(l);
+    print_list(l);
+    insert_front(l, 5.0f);
+    print_list(l);
     return 0;
 }

@@ -15,28 +15,21 @@ List *new_list()
 void clear_list(List *l)
 {    
     if(l == NULL || (l->head) == NULL || l->head->next == NULL) return;
-    Node *it = l->head, *tail, *prev;
-    while(it != NULL)
-    {
-        prev = tail;
-        tail = it;
-        it = it->next;
-    }
-
-    free(tail);
-    prev->next = NULL;
-    --l->count;
-    clear_list(l);
+    while(l->count > 0)
+        remove_back(l);
 }
 
-void show_list(const List *l)
+void print_list(const List *l)
 {
     if(l == NULL) return;
     Node *it;
+    printf("--------------------------\n");
     for(it = l->head; it != NULL; it = it->next)
     {
-        printf("%8.3f\n", it->val);
+        printf("%8.3f ", it->val);
     }
+    printf("\n");
+    printf("--------------------------\n");
 }
 
 void insert_front(List *l, float val)
@@ -132,21 +125,44 @@ void remove_at(List *l, Node **dest, float val)
 
 void remove_front(List *l)
 {
-    if(l == NULL) return;
-    Node* head = l->head;
-    free(head);
-    l->head = l->head->next;
-    l->head->prev = NULL;
+    if(l == NULL || l->count == 0)
+        return;
+
+    if(l->count == 1)
+    {
+        free(l->head);
+        l->head = NULL;
+        l->tail = NULL;
+        l->count = 0;
+    }
+    else
+    {
+        Node* head = l->head;
+        l->head = l->head->next;
+        l->head->prev = NULL;
+        free(head);
+    }
     --l->count;
 }
 
 void remove_back(List *l)
 {
-    if(l == NULL) return;
-    Node *tail = l->tail;
-    free(tail);
-    l->tail = l->tail->prev;
-    l->tail->next = NULL;
+    if(l == NULL || l->count == 0)
+        return;
+    if(l->count == 1)
+    {
+        free(l->tail);
+        l->head = NULL;
+        l->tail = NULL;
+        l->count = 0;
+    }
+    else
+    {
+        Node *tail = l->tail;
+        l->tail = l->tail->prev;
+        l->tail->next = NULL;
+        free(tail);
+    }
     --l->count;
 }
 
