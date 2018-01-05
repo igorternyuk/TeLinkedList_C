@@ -8,15 +8,13 @@ List *new_list()
     L = (List*)malloc(sizeof(List));
     L->head = NULL;
     L->tail = L->head;
+    L->count = 0;
     return L;
 }
 
 void clear_list(List *l)
-{
-    if((l->head) == NULL || l->head->next == NULL)
-    {
-        return;
-    }
+{    
+    if(l == NULL || (l->head) == NULL || l->head->next == NULL) return;
     Node *it = l->head, *tail, *prev;
     while(it != NULL)
     {
@@ -27,11 +25,13 @@ void clear_list(List *l)
 
     free(tail);
     prev->next = NULL;
+    --l->count;
     clear_list(l);
 }
 
 void show_list(const List *l)
 {
+    if(l == NULL) return;
     Node *it;
     for(it = l->head; it != NULL; it = it->next)
     {
@@ -39,8 +39,9 @@ void show_list(const List *l)
     }
 }
 
-void insert_value_front(List *l, float val)
+void insert_front(List *l, float val)
 {
+    if(l == NULL) return;
     if(l->head == NULL)
     {
         //printf("List is empty. We insert first element: %5.3f\n", val);
@@ -60,11 +61,12 @@ void insert_value_front(List *l, float val)
         l->head = l->head->prev;
         l->head->next = oldHead;
     }
-    return 0;
+    ++l->count;
 }
 
-void insert_value_back(List *l, float val)
+void insert_back(List *l, float val)
 {
+    if(l == NULL) return;
     if(l->head == NULL)
     {
         //printf("List is empty. We insert first element: %5.3f\n", val);
@@ -84,14 +86,13 @@ void insert_value_back(List *l, float val)
         l->tail = l->tail->next;
         l->tail->prev = oldTail;
     }
+    ++l->count;
 }
 
-void insert_value_at(List *l, Node **dest, float val)
+void insert_at(List *l, Node **dest, float val)
 {
-    if(l->head == NULL || *dest == NULL)
-    {
-        return;
-    }
+    if(l == NULL || l->head == NULL || *dest == NULL) return;
+
     Node *it = l->head;
     while (it != NULL) {
         if(it == *dest)
@@ -103,17 +104,17 @@ void insert_value_at(List *l, Node **dest, float val)
             newElement->prev = it;
             it->next = newElement;
             newElement->next->prev = newElement;
+            ++l->count;
+            break;
         }
         it = it->next;
     }
 }
 
-void remove_value_at(List *l, Node **dest, float val)
+void remove_at(List *l, Node **dest, float val)
 {
-    if(l->head == NULL || *dest == NULL)
-    {
-        return;
-    }
+    if(l == NULL || l->head == NULL || *dest == NULL) return;
+
     Node *it = l->head;
     while (it != NULL) {
         if(it == *dest)
@@ -122,6 +123,7 @@ void remove_value_at(List *l, Node **dest, float val)
             it->prev->next = it->next;
             it->next->prev = it->prev;
             free(it);
+            --l->count;
             break;
         }
         it = it->next;
@@ -130,26 +132,28 @@ void remove_value_at(List *l, Node **dest, float val)
 
 void remove_front(List *l)
 {
+    if(l == NULL) return;
     Node* head = l->head;
     free(head);
     l->head = l->head->next;
     l->head->prev = NULL;
+    --l->count;
 }
 
 void remove_back(List *l)
 {
+    if(l == NULL) return;
     Node *tail = l->tail;
     free(tail);
     l->tail = l->tail->prev;
     l->tail->next = NULL;
+    --l->count;
 }
 
 int search_item(List *l, float val, Node **res)
 {
-    if(l->head == NULL)
-    {
-        return 0;
-    }
+    if(l == NULL || l->head == NULL) return 0;
+
     Node* it = l->head;
     while(it != NULL)
     {
@@ -164,19 +168,4 @@ int search_item(List *l, float val, Node **res)
         }
     }
     return 0;
-}
-
-int countItems(List *l)
-{
-    if(l->head == NULL)
-    {
-        return 0;
-    }
-    int counter = 0;
-    Node* it = l->head;
-    while(it != NULL){
-        it = it->next;
-        ++counter;
-    }
-    return counter;
 }

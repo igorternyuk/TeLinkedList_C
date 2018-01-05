@@ -15,14 +15,14 @@ int main(void)
     {
         float val;
         fscanf(file,"%f",&val);
-        insert_value_back(l, val);
-        insert_value_front(l, val);
+        insert_back(l, val);
+        insert_front(l, val);
     }
     Node* six = NULL;
     if(search_item(l, 6.0, &six) == 1)
     {
         printf("Element was found: %5.3f\n", six->val);
-        insert_value_at(l, &six, 100.f);
+        insert_at(l, &six, 100.f);
     }
     else
     {
@@ -32,7 +32,7 @@ int main(void)
     if(search_item(l, 3.0, &three) == 1)
     {
         printf("Element was found: %5.3f\n", three->val);
-        remove_value_at(l, &three, 100.f);
+        remove_at(l, &three, 100.f);
     }
     else
     {
@@ -41,7 +41,7 @@ int main(void)
 
     fclose(file);
     show_list(l);
-    printf("List size: %d\n", countItems(l));
+    printf("List size: %d\n", l->count);
     clear_list(l);
     return 0;
 }
