@@ -18,6 +18,7 @@ typedef struct
 } List;
 
 List *list_create(void);
+void list_destroy(List **l);
 void list_insert_front(List *l, float val);
 void list_insert_back(List *l, float val);
 void list_insert_at(List *l, Node **dest, float val);

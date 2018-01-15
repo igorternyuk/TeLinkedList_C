@@ -474,3 +474,9 @@ void swap_data(float *a, float *b)
     *b = tmp;
 }
 
+
+void list_destroy(List **l)
+{
+    list_clear_list(*l);
+    free(*l);
+}

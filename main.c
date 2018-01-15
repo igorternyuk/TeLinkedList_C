@@ -72,9 +72,9 @@ int main(void)
     list_print_list(l2);
     List *res = list_merge_lists(l, l2);
     list_print_list(res);
-    list_clear_list(l);
-    list_clear_list(l2);
-    list_clear_list(res);
+    list_destroy(&l);
+    list_destroy(&l2);
+    list_destroy(&res);
     printf("------Clone----------");
     List *l3 = list_create();
     list_insert_back(l3,1);
@@ -83,8 +83,8 @@ int main(void)
     list_print_list(l3);
     List *l3clone = list_clone(l3);
     list_print_list(l3clone);
-    list_clear_list(l3);
-    list_clear_list(l3clone);
+    list_destroy(&l3);
+    list_destroy(&l3clone);
     printf("\n*******Merge sorting***********\n");
     srand(time(NULL));
     List *l4 = list_create();
@@ -95,7 +95,7 @@ int main(void)
     list_print_list(l4);
     list_merge_sort(l4,&compare);
     list_print_list(l4);
-    list_clear_list(l4);
+    list_destroy(&l4);
     printf("\n*******Quick sorting***********\n");
     List *l5 = list_create();
     for(size_t i = 0; i < 200; ++i)
@@ -105,7 +105,7 @@ int main(void)
     list_print_list(l5);
     list_quick_sort(l5, &compare);
     list_print_list(l5);
-    list_clear_list(l5);
+    list_destroy(&l5);
 
     List *l6 = list_create();
     list_insert_back(l6, 1);
@@ -129,6 +129,6 @@ int main(void)
     list_print_list(l6);
     list_remove_dublicates(l6, &compare);
     list_print_list(l6);
-    list_clear_list(l6);
+    list_destroy(&l6);
     return 0;
 }
